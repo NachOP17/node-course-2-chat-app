@@ -16,14 +16,14 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
   console.log('New user connected');
 
-  socket.emit('newMessage', {
-    form: 'Ignacio',
-    text: 'Hola',
-    createdAt: 123
-  });
+  socket.on('createMessage', (message) => {
+    console.log('createMessage', message);
+    io.emit('newMessage', {   // io.emit emite un evento a todas las conexiones (si estás conectado en varios dispositivos)
+      from: message.from,     // mientras que socket.emit emite un evento a una sola conexión
+      text: message.text,
+      createdAt: new Date().getTime()
+    })
 
-  socket.on('createMessage', (newMessage) => {
-    console.log('createMessage', newMessage);
   });
 
   socket.on('disconnect', () => {
