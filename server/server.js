@@ -16,6 +16,18 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
   console.log('New user connected');
 
+  socket.emit('newMessage', {
+    form: 'Admin',
+    text: 'Welcome to the chat app',
+    createdAt: new Date().getTime()
+  });
+
+  socket.broadcast.emit('newMessage', {
+    form: 'Admin',
+    text: 'New user joined',
+    createdAt: new Date().getTime()
+  });
+
   socket.on('createMessage', (message) => {
     console.log('createMessage', message);
     io.emit('newMessage', {   // io.emit emite un evento a todas las conexiones (si estás conectado en varios dispositivos)
@@ -23,6 +35,12 @@ io.on('connection', (socket) => {
       text: message.text,
       createdAt: new Date().getTime()
     })
+    // socket.broadcast.emit('newMessage', {
+    //   // El mensaje que se envió lo pueden ver todos desde el dispositivo (ventana) desde el cual se envió
+    //   from: message.from,
+    //   text: message.text,
+    //   createdAt: new Date().getTime()
+    // });
 
   });
 
