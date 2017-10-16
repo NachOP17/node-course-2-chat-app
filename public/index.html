@@ -6,5 +6,22 @@
   </head>
   <body>
     <p>Welcome to the chat app</p>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      var socket = io();
+      /*
+      El io es un método que hace que se inicie un pedido del cliente al
+      servidor para abrir un web socket y dejar esa conexión abierta
+      */
+
+      socket.on('connect', () => {
+        console.log('Connected to server');
+      });
+
+      socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+      });
+    </script>
   </body>
 </html>
