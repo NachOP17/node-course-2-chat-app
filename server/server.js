@@ -21,9 +21,10 @@ io.on('connection', (socket) => {
 
   socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined'));
 
-  socket.on('createMessage', (message) => {
+  socket.on('createMessage', (message, callback) => {
     console.log('createMessage', message);
-    io.emit('newMessage', generateMessage(message.from, message.text));  
+    io.emit('newMessage', generateMessage(message.from, message.text));
+    callback('This is from the server');  
       // io.emit emite un evento a todas las conexiones (si estás conectado en varios dispositivos)
     // socket.broadcast.emit('newMessage', {
     //   // El mensaje que se envió lo pueden ver todos desde el dispositivo (ventana) desde el cual se envió
